@@ -81,6 +81,8 @@ int main() {
 		if (c == 'S' or c == DOWN_ARROW) row++;
 		if (c == 'A' or c == LEFT_ARROW) col--;
 		if (c == 'D' or c == RIGHT_ARROW) col++;
+		row = clamp(row, 0, ROWS - 2);
+		col = clamp(col, 0, COLS - 2);
 		if (!(row == last_row and col == last_col)) { //If we moved...
 			print_world(row, col); //...redraw the map
 			last_row = row;
@@ -88,7 +90,16 @@ int main() {
 			movecursor(2, COLS + 5);
 			cout << BLUE << "ROW: " << row << RED << " COL: " << col << RESET;
 			movecursor(ROWS + 2, 0);
-			cout << "Welcome to the game\n";
+			setcolor(255, 0, 0);
+			cout << "Welcome to the EVIL KING RECURSION'S DOMAIN\n";
+			resetcolor();
+			movecursor(ROWS + 4, 0);
+			cout << CYAN << "Objectives : " << YELLOW <<  "(1) Go to each of the marked locations to gather intel\n";
+			movecursor(ROWS + 5, 0);
+			cout << "             " << YELLOW << "(2) Complete 5 tasks from the marked locations and the town board ->(?)\n";
+			movecursor(ROWS + 6, 0);
+			cout << "             " << YELLOW << "(3) Slay the Evil King to restore peace in the domain\n";
+			resetcolor();
 			cout.flush();
 		}
 		if (get_world_location(row, col) == 'r') {
