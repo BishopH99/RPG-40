@@ -58,7 +58,7 @@ void print_world(size_t player_row, size_t player_col) {
 	movecursor(0, 0);
 	for (size_t row = 0; row < world_map.size(); row++) {
 		for (size_t col = 0; col < world_map.at(row).size(); col++) {
-			if (row == player_row and col == player_col) cout << '@';
+			if (row == player_row and col == player_col) cout << "@";
 			else
 				cout << world_map.at(row).at(col);
 		}
@@ -70,6 +70,7 @@ int main() {
 	const int ROWS = world_map.size();
 	const int COLS = world_map.at(0).size(); //MAKE SURE ALL ROWS ARE THE SAME SIZE OR BAD TIMES
 	const int FPS = 60;
+	int Health = 50;
 	int row = ROWS / 2, col = COLS / 2;
 	int last_row = -1, last_col = -1; //Save our last position so we only redraw on update
 	set_raw_mode(true);
@@ -81,14 +82,16 @@ int main() {
 		if (c == 'S' or c == DOWN_ARROW) row++;
 		if (c == 'A' or c == LEFT_ARROW) col--;
 		if (c == 'D' or c == RIGHT_ARROW) col++;
-		row = clamp(row, 0, ROWS - 2);
-		col = clamp(col, 0, COLS - 2);
+		row = clamp(row, 1, ROWS - 2);
+		col = clamp(col, 1, COLS - 2);
 		if (!(row == last_row and col == last_col)) { //If we moved...
 			print_world(row, col); //...redraw the map
 			last_row = row;
 			last_col = col;
 			movecursor(2, COLS + 5);
 			cout << BLUE << "ROW: " << row << RED << " COL: " << col << RESET;
+			movecursor(5, COLS + 5);
+			cout << RED  << "HP: " << WHITE << Health << endl; //FIXME: add color indictors to the HP
 			movecursor(ROWS + 2, 0);
 			setcolor(255, 0, 0);
 			cout << "Welcome to the EVIL KING RECURSION'S DOMAIN\n";
@@ -99,6 +102,40 @@ int main() {
 			cout << "             " << YELLOW << "(2) Complete 5 tasks from the marked locations and the town board ->(?)\n";
 			movecursor(ROWS + 6, 0);
 			cout << "             " << YELLOW << "(3) Slay the Evil King to restore peace in the domain\n";
+			movecursor(17, 39);
+			cout << BOLDYELLOW << "?";
+			movecursor(24, 9);
+			cout << BOLDYELLOW << "TAVERN";
+			movecursor(8, 10);
+			cout << BOLDYELLOW << "SMITH";
+			movecursor(11, 37);
+			cout << BOLDYELLOW << "WELL";
+			movecursor(12, 68);
+			cout << BOLDYELLOW << "STABLE";
+			movecursor(19, 69);
+			cout << BOLDYELLOW << "EVIL";
+			movecursor(19, 74);
+			cout << BOLDYELLOW << "KING";
+			movecursor(20, 71);
+			cout << BOLDYELLOW << "CASTLE";
+			movecursor(17, 9);
+			cout << BOLDYELLOW << "______";
+			movecursor(5, 17);
+			cout << BOLDYELLOW << "|";
+			movecursor(6, 17);
+			cout << BOLDYELLOW << "|";
+			movecursor(9, 42);
+			cout << BOLDYELLOW << "|";
+			movecursor(8, 68);
+			cout << BOLDYELLOW << "______";
+			movecursor(18, 65);
+			cout << BOLDYELLOW << "|";
+			movecursor(19, 65);
+			cout << BOLDYELLOW << "|";
+			movecursor(20, 65);
+			cout << BOLDYELLOW << "|";
+			movecursor(21, 65);
+			cout << BOLDYELLOW << "|";
 			resetcolor();
 			cout.flush();
 		}
